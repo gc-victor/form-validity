@@ -1,0 +1,291 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Form validity</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="It is a tiny wrapper over the native validation to create your validation libraries.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/marx-css@3.0.8/css/marx.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/themes/prism.css">
+    <script src="https://cdn.jsdelivr.net/npm/js-beautify@1.13.5/js/lib/beautifier.min.js"></script>
+    <style>
+        pre {
+            font-family: monospace;
+        }
+
+        input:focus:optional {
+            background: #F6F6F6;
+            border: grey solid 1px;
+            color: black;
+        }
+
+        input:focus:invalid {
+            border: red solid 1px;
+            color: red;
+        }
+
+        input:focus:valid {
+            border: darkseagreen solid 1px;
+            color: darkseagreen;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .display-flex {
+            display: flex;
+        }
+
+        .margin-left-x0 {
+            margin-left: 0;
+        }
+
+        .margin-right-x2 {
+            margin-right: 3px;
+        }
+
+        .width-384px {
+            width: 384px;
+        }
+
+        @media (max-width: 640px) {
+            .sm\:display-block {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <article>
+            <h1>Form validity</h1>
+            <p>It is a tiny wrapper over the native validation to create your validation libraries.</p>
+            <p><a href="https://github.com/gc-victor/form-validity/">https://github.com/gc-victor/form-validity/</a></p>
+            <h2>Installation</h2>
+            <p>You can use npm or yarn to install it.</p>
+            <pre><code class="language-shell">npm install git+https://github.com/gc-victor/form-validity.git#master</code></pre>
+            <p>Import it in your application.</p>
+            <pre><code class="language-js">import { fieldValidation, formValidation } from 'form-validity';</code></pre>
+            <p>Or import it in a <code>&lt;script type="module"&gt;</code> as a module.</p>
+            <pre><code class="language-js">import { fieldValidation, formValidation } from 'https://cdn.jsdelivr.net/gh/gc-victor/form-validity/form-validity.js';</code></pre>
+            <h2>API</h2>
+            <p>It has a simple API, only two methods:</p>
+            <dl>
+                <div class="display-flex sm:display-block">
+                    <dt class="bold margin-right-x2">fieldValidation:</dt>
+                    <dd class="margin-left-x0">It validates a form field element</dd>
+                </div>
+                <div class="display-flex sm:display-block">
+                    <dt class="bold margin-right-x2">formValidation:</dt>
+                    <dd class="margin-left-x0">It validates each field from a form element</dd>
+                </div>
+            </dl>
+            <h2>Error state</h2>
+            <p>It returns a native validity state object</p>
+            <pre class="language-js">
+{
+    "valueMissing": false,
+    "typeMismatch": false,
+    "patternMismatch": false,
+    "tooLong": false,
+    "tooShort": false,
+    "rangeUnderflow": false,
+    "rangeOverflow": false,
+    "stepMismatch": false,
+    "badInput": false,
+    "customError": false,
+    "valid": true
+}
+            </pre>
+            <p>
+                <a href="https://developer.mozilla.org/en-US/docs/Web/API/ValidityState">
+                    https://developer.mozilla.org/en-US/docs/Web/API/ValidityState
+                </a>
+            </p>
+            <h2>Example</h2>
+            <pre><code id="code-example-module" class="language-js"></code></pre>
+        </article>
+        <article class="display-flex sm:display-block">
+            <article>
+                <h1>Demo</h1>
+                <!-- NOTICE: novalidate -->
+                <form id="form" novalidate>
+                    <div>
+                        <p>
+                            <label>
+                                <strong>Pattern number</strong><br/>
+                                <input name="patternNumber" pattern="^\d+$" />
+                                <small>Error on submit</small>
+                                <small><a href=""></a></small>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <strong>Custom error</strong><br/>
+                                <input name="customError" />
+                                <small>Error on blur</small>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <strong>Value missing*</strong><br/>
+                                <!-- NOTICE: data-validation -->
+                                <input data-validation="true" name="valueMissing" required />
+                                <small>Error on input</small>
+                                <small><a href=""></a></small>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <strong>Type mismatch (email)</strong><br/>
+                                <input data-validation="true" name="typeMismatch" type="email" />
+                                <small>Error on input</small>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <strong>Too sort</strong><br/>
+                                <input data-validation="true" minlength="5" name="tooSort" />
+                                <small>Error on input</small>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <strong>Range underflow (min="3")</strong><br/>
+                                <input data-validation="true" min="3" name="rangeUnderflow" type="number"/>
+                                <small>Error on input</small>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <strong>Range overflow (max="5")</strong><br/>
+                                <input data-validation="true" max="5" name="rangeOverflow" type="number"/>
+                                <small>Error on input</small>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <strong>Step mismatch</strong><br/>
+                                <input data-validation="true" name="stepMismatch" type="number" step="2"/>
+                                <small>Error on input</small>
+                            </label>
+                        </p>
+                        <p>
+                            <label>
+                                <strong>Select*</strong><br/>
+                                <select name="select" required>
+                                    <option value="">Select an item</option>
+                                    <option value="1">Item 1</option>
+                                </select>
+                            </label>
+                        </p>
+                        <ul>
+                            <li>
+                                <label>
+                                    <input name="checkbox-1" type="checkbox" value="checkbox-1">
+                                    <strong>Checkbox 1</strong>
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input data-validation="true" name="checkbox-2" type="checkbox" value="checkbox-2" required>
+                                    <strong>Checkbox 2*</strong>
+                                </label>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>
+                                <label>
+                                    <input name="radio" type="radio" value="radio-1">
+                                    <strong>Radio 1*</strong>
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input name="radio" type="radio" value="radio-2" required>
+                                    <strong>Radio 2*</strong>
+                                </label>
+                            </li>
+                        </ul>
+                        <p>
+                            <button>Submit</button>
+                        </p>
+                    </div>
+                </form>
+            </article>
+            <article>
+                <h1>Errors logs</h1>
+                <pre id="logs" class="language-js width-384px">{}</pre>
+            </article>
+        </article>
+    </main>
+    <script id="example-module" type="module">
+        import { fieldValidation, formValidation } from './form-validity.js';
+
+        const form = document.getElementById('form');
+
+        /** On Submit */
+        form.addEventListener('submit', (ev) => {
+            ev.preventDefault();
+
+            log({
+                name: ev.target.name,
+                event: ev.type,
+                errors: formValidation(ev.target),
+                message: ev.target.validationMessage,
+            });
+        }, true);
+
+        /** On Input */
+        form.addEventListener('input', (ev) => {
+            const target = ev.target;
+
+            target.dataset.validation && log({
+                name: target.name,
+                event: ev.type,
+                errors: fieldValidation(target, true),
+                message: target.validationMessage
+            });
+        }, true);
+
+        /** On Blur */
+        ['customError', 'rangeUnderflow', 'rangeOverflow'].map(name => {
+            const el = document.getElementsByName(name)[0];
+
+            el.addEventListener('blur', (ev) => {
+                const target = ev.target;
+
+                target.name === 'customError' && target.setCustomValidity('Custom validation :)');
+
+                log({
+                    name: target.name,
+                    event: ev.type,
+                    errors: fieldValidation(target, true),
+                    message: target.validationMessage
+                });
+            }, true);
+        });
+
+        function log(body) {
+            const logs = document.getElementById('logs');
+            const str = JSON.stringify(body, null, '   ');
+
+            logs.textContent = str;
+
+            console.log(str);
+        }
+    </script>
+    <script>
+        const exampleModule = document.getElementById('example-module');
+        const codeExampleModule = document.getElementById('code-example-module');
+
+        codeExampleModule.append(
+            window
+                .beautifier
+                .js(exampleModule.textContent, { indent_size: 2, space_in_empty_paren: true })
+        );
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/prism.min.js"></script>
+</body>
+</html>

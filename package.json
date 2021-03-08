@@ -1,0 +1,16 @@
+{
+  "name": "form-validity",
+  "version": "1.0.0",
+  "description": "It is a wrapper over the native validation to create your validation libraries",
+  "main": "form-validity.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gc-victor/form-validity.git"
+  },
+  "author": "Víctor García Cuenllas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gc-victor/form-validity/issues"
+  },
+  "homepage": "https://github.com/gc-victor/form-validity#readme"
+}
